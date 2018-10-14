@@ -6,7 +6,18 @@ export function createProvider(storeKey = 'store') {
   const subscriptionKey = `${storeKey}Subscription`;
 
   class Provider extends Component {
+    getChildContext() {
+      return { [storeKey]: this[storeKey], [subscriptionKey]: null }
+    }
 
+    constructor(props, context) {
+      super(props, context);
+      this[storeKey] = props.store;
+    }
+
+    render() {
+      return Children.only(this.props.children);
+    }
   }
 
   Provider.propTypes = {
